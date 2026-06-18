@@ -1,0 +1,329 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ---------------- Multi-Tenant Core ----------------
+model Portfolio {
+  id        String   @id @default(cuid())
+  name      String
+  subdomain String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  parsedResume Json?
+
+  users             User[]
+  siteSettings      SiteSettings?
+  profiles          Profile[]
+  skills            Skill[]
+  experiences       Experience[]
+  educations        Education[]
+  projects          Project[]
+  projectCategories ProjectCategory[]
+  blogs             Blog[]
+  categories        Category[]
+  tags              Tag[]
+  contactMessages   ContactMessage[]
+  pageViews         PageView[]
+  subscribers       Subscriber[]
+  certifications    Certification[]
+  seos              SEO[]
+  medias            Media[]
+  featureFlags      FeatureFlag[]
+  auditLogs         AuditLog[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  portfolioId   String
+  portfolio     Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// ---------------- Site Configuration ----------------
+model SiteSettings {
+  id                String    @id @default(cuid())
+  portfolioId       String    @unique
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  siteName          String
+  siteDescription   String
+  siteUrl           String
+  logoUrl           String?
+  faviconUrl        String?
+  primaryColor      String?
+  secondaryColor    String?
+  seoTitle          String?
+  seoDescription    String?
+  googleAnalyticsId String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model FeatureFlag {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String    @unique
+  enabled     Boolean   @default(false)
+}
+
+// ---------------- Profile & Content ----------------
+model Profile {
+  id           String    @id @default(cuid())
+  portfolioId  String
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name         String
+  title        String
+  bio          String    @db.Text
+  resumeUrl    String?
+  profileImage String?
+  email        String?
+  phone        String?
+  location     String?
+  githubUrl    String?
+  linkedinUrl  String?
+  twitterUrl   String?
+  telegramUrl  String?
+  instagramUrl String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Skill {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  category    String
+  proficiency Int       @default(0) // 0-100
+  icon        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Experience {
+  id           String    @id @default(cuid())
+  portfolioId  String
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  company      String
+  position     String
+  location     String?
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String    @db.Text
+  technologies String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Education {
+  id           String    @id @default(cuid())
+  portfolioId  String
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  institution  String
+  degree       String
+  fieldOfStudy String?
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String?   @db.Text
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model ProjectCategory {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  slug        String    @unique
+  projects    Project[]
+}
+
+model Project {
+  id           String           @id @default(cuid())
+  portfolioId  String
+  portfolio    Portfolio        @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title        String
+  slug         String           @unique
+  description  String           @db.Text
+  content      String?          @db.Text
+  imageUrl     String?
+  technologies String[]
+  githubUrl    String?
+  liveUrl      String?
+  featured     Boolean          @default(false)
+  categoryId   String?
+  category     ProjectCategory? @relation(fields: [categoryId], references: [id])
+  projectViews ProjectView[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model Blog {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String    @unique
+  excerpt     String    @db.Text
+  contentJson Json
+  coverImage  String?
+  published   Boolean   @default(false)
+  authorId    String
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  tags        Tag[]     @relation("BlogToTag")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  slug        String    @unique
+  blogs       Blog[]
+}
+
+model Tag {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  slug        String    @unique
+  blogs       Blog[]    @relation("BlogToTag")
+}
+
+model Media {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  fileName    String
+  fileUrl     String
+  fileType    String
+  size        Int
+  createdAt   DateTime  @default(now())
+}
+
+// ---------------- Marketing, SEO & CRM ----------------
+model Certification {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  issuer      String
+  issueDate   DateTime?
+  url         String?
+  imageUrl    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model SEO {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  page        String    @unique
+  title       String
+  description String
+  keywords    String?
+  ogImage     String?
+}
+
+model ContactMessage {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  name        String
+  email       String
+  subject     String?
+  message     String    @db.Text
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+model Subscriber {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  email       String    @unique
+  createdAt   DateTime  @default(now())
+}
+
+// ---------------- Analytics & Enterprise Logs ----------------
+model PageView {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  page        String
+  country     String?
+  device      String?
+  createdAt   DateTime  @default(now())
+}
+
+model ProjectView {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  userId      String
+  action      String
+  entityType  String
+  entityId    String
+  createdAt   DateTime  @default(now())
+}
+
+// ---------------- NextAuth ----------------
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
