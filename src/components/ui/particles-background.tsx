@@ -140,7 +140,7 @@ export function ParticlesBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-20 w-full h-full pointer-events-none bg-background transition-colors duration-500"
+      className="fixed inset-0 -z-10 w-full h-full pointer-events-none"
     />
   )
 }

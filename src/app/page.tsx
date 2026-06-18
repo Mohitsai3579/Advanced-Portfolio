@@ -13,6 +13,8 @@ import { TiltCard } from "@/components/ui/tilt-card"
 import { ProjectRequestWidget } from "@/components/public/project-request-widget"
 import { PublicFooter } from "@/components/public/footer"
 
+export const dynamic = "force-dynamic"
+
 export default async function PublicHomePage() {
   const portfolio = await getPublicPortfolio()
 
