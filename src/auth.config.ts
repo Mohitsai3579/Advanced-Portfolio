@@ -8,6 +8,7 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id
         token.role = user.role
         token.portfolioId = user.portfolioId
       }
@@ -15,6 +16,7 @@ export const authConfig = {
     },
     async session({ session, token }) {
       if (token && session.user) {
+        session.user.id = (token.id || token.sub) as string
         session.user.role = token.role as string
         session.user.portfolioId = token.portfolioId as string
       }
