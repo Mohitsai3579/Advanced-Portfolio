@@ -12,10 +12,11 @@ import {
   User,
   Mail,
   Briefcase,
-  GraduationCap
+  GraduationCap,
+  Award
 } from "lucide-react"
 
-const navItems = [
+export const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Messages", href: "/admin/messages", icon: Mail },
   { name: "Profile", href: "/admin/profile", icon: User },
@@ -23,6 +24,7 @@ const navItems = [
   { name: "Experience", href: "/admin/experience", icon: Briefcase },
   { name: "Education", href: "/admin/education", icon: GraduationCap },
   { name: "Certs", href: "/admin/certifications", icon: FileText },
+  { name: "Achievements", href: "/admin/achievements", icon: Award },
   { name: "Projects", href: "/admin/projects", icon: FolderGit2 },
   { name: "Blogs", href: "/admin/blogs", icon: FileText },
   { name: "Media", href: "/admin/media", icon: ImageIcon },

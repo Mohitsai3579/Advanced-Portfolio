@@ -2,7 +2,7 @@ import { getPublicPortfolio } from "@/actions/public"
 import { notFound } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Code, Briefcase, MessageCircle, Download, GraduationCap, MapPin, Calendar } from "lucide-react"
+import { ArrowRight, Code, Briefcase, MessageCircle, Download, GraduationCap, MapPin, Calendar, Award } from "lucide-react"
 import Link from "next/link"
 import { PublicNavbar } from "@/components/public/navbar"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -28,6 +28,7 @@ export default async function PublicHomePage() {
   const posts = portfolio.blogs || []
   const skills = portfolio.skills || []
   const certifications = portfolio.certifications || []
+  const achievements = portfolio.achievements || []
 
   const experiences = portfolio.experiences || []
   const educations = portfolio.educations || []
@@ -47,10 +48,13 @@ export default async function PublicHomePage() {
 
       <main className="relative">
         
-        {/* Animated Background Orbs */}
-        <div className="absolute top-0 left-0 w-full h-[800px] overflow-hidden -z-10 pointer-events-none">
-          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px] animate-pulse mix-blend-screen" />
-          <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/20 blur-[120px] animate-pulse mix-blend-screen" style={{ animationDelay: '2s' }} />
+        {/* Animated Background Orbs and Grid Lines */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div className="absolute inset-0 bg-grid-mesh opacity-70" />
+          <div className="absolute top-0 left-0 w-full h-[800px] pointer-events-none">
+            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px] animate-pulse mix-blend-screen" />
+            <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/20 blur-[120px] animate-pulse mix-blend-screen" style={{ animationDelay: '2s' }} />
+          </div>
         </div>
 
         {/* HERO SECTION */}
@@ -409,6 +413,51 @@ export default async function PublicHomePage() {
                         )}
                       </div>
                     </div>
+                  </TiltCard>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+        {/* ACHIEVEMENTS SECTION */}
+        {achievements.length > 0 && (
+          <section id="achievements" className="py-24 border-b border-border/20 relative backdrop-blur-sm bg-background/20">
+            <div className="max-w-6xl mx-auto px-4">
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">Achievements & Honors</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {achievements.map((ach: any) => (
+                  <TiltCard key={ach.id} maxTilt={6} scale={1.01} className="group rounded-3xl border border-border/20 bg-card/25 backdrop-blur-md p-8 flex flex-col justify-between transition-all duration-300 hover:border-primary/30 hover:shadow-[0_0_30px_var(--primary)]/10">
+                    <div>
+                      <div className="flex justify-between items-start gap-4 mb-4">
+                        <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shrink-0 group-hover:scale-110 transition-transform duration-300">
+                          <Award className="h-6 w-6" />
+                        </div>
+                        {ach.date && (
+                          <Badge variant="outline" className="rounded-full px-3 py-1 text-xs border-primary/30 text-primary bg-primary/5">
+                            {ach.date}
+                          </Badge>
+                        )}
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{ach.title}</h3>
+                      {ach.issuer && (
+                        <p className="text-sm font-semibold text-muted-foreground mb-4">{ach.issuer}</p>
+                      )}
+                      {ach.description && (
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed line-clamp-3 mb-6">{ach.description}</p>
+                      )}
+                    </div>
+                    {ach.link && (
+                      <div className="mt-auto pt-4 border-t border-border/10">
+                        <a 
+                          href={ach.link} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="text-xs md:text-sm font-bold text-primary hover:underline transition-all flex items-center gap-1.5"
+                        >
+                          Verify Achievement <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </a>
+                      </div>
+                    )}
                   </TiltCard>
                 ))}
               </div>

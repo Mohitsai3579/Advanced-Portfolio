@@ -12,6 +12,7 @@ export async function getPublicPortfolio() {
       experiences: { orderBy: { startDate: "desc" } },
       educations: { orderBy: { startDate: "desc" } },
       certifications: { orderBy: { createdAt: "desc" } },
+      achievements: { orderBy: { createdAt: "desc" } },
       projects: {
         orderBy: { featured: 'desc' },
         take: 6

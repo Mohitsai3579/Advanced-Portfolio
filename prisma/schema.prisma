@@ -40,6 +40,7 @@ model Portfolio {
   medias            Media[]
   featureFlags      FeatureFlag[]
   auditLogs         AuditLog[]
+  achievements      Achievement[]
 }
 
 model User {
@@ -326,4 +327,17 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Achievement {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title       String
+  issuer      String?
+  date        String?
+  description String?   @db.Text
+  link        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
