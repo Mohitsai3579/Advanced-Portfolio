@@ -351,6 +351,31 @@ export default async function PublicHomePage() {
                         <Badge key={tech} variant="secondary" className="bg-muted/50 hover:bg-primary/20 hover:text-primary border-border/30 px-3 py-1 text-xs md:text-sm transition-colors">{tech}</Badge>
                       ))}
                     </div>
+                    
+                    {(project.githubUrl || project.liveUrl) && (
+                      <div className="flex items-center gap-4 mt-6 pt-4 border-t border-border/10">
+                        {project.githubUrl && (
+                          <a 
+                            href={project.githubUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5"
+                          >
+                            <Code className="h-4 w-4" /> GitHub
+                          </a>
+                        )}
+                        {project.liveUrl && (
+                          <a 
+                            href={project.liveUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-sm font-semibold text-primary hover:underline transition-all flex items-center gap-1.5 ml-auto"
+                          >
+                            Live Demo <ArrowRight className="h-4 w-4" />
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </TiltCard>
               ))}
