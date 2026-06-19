@@ -64,8 +64,20 @@ export function ParticlesBackground() {
     window.addEventListener("mouseleave", handleMouseLeave)
     window.addEventListener("resize", handleResize)
 
+    let frameCount = 0
+    let activePrimaryColor = "oklch(0.65 0.3 290)"
+
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
+
+      // Query active theme --primary variable from document root every 30 frames
+      frameCount++
+      if (frameCount % 30 === 0 && typeof window !== "undefined") {
+        const computedColor = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim()
+        if (computedColor) {
+          activePrimaryColor = computedColor
+        }
+      }
 
       // Move and draw particles
       particles.forEach((p) => {
@@ -114,12 +126,15 @@ export function ParticlesBackground() {
 
           if (dist < 120) {
             const alpha = (1 - dist / 120) * 0.12
+            ctx.save()
             ctx.beginPath()
             ctx.moveTo(p1.x, p1.y)
             ctx.lineTo(p2.x, p2.y)
-            ctx.strokeStyle = `rgba(147, 51, 234, ${alpha})`
+            ctx.strokeStyle = activePrimaryColor
+            ctx.globalAlpha = alpha
             ctx.lineWidth = 0.5
             ctx.stroke()
+            ctx.restore()
           }
         }
       }
@@ -133,12 +148,15 @@ export function ParticlesBackground() {
 
           if (dist < 180) {
             const alpha = (1 - dist / 180) * 0.22
+            ctx.save()
             ctx.beginPath()
             ctx.moveTo(mouse.x, mouse.y)
             ctx.lineTo(p.x, p.y)
-            ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`
+            ctx.strokeStyle = activePrimaryColor
+            ctx.globalAlpha = alpha
             ctx.lineWidth = 0.65
             ctx.stroke()
+            ctx.restore()
           }
         })
       }

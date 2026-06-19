@@ -15,6 +15,7 @@ import { PublicFooter } from "@/components/public/footer"
 import { WobblyBlob } from "@/components/ui/wobbly-blob"
 import { CustomCursor } from "@/components/ui/custom-cursor"
 import { Preloader } from "@/components/public/preloader"
+import { ThemeSwitcher } from "@/components/public/theme-switcher"
 
 export const dynamic = "force-dynamic"
 
@@ -538,6 +539,7 @@ export default async function PublicHomePage() {
       </main>
 
       <ProjectRequestWidget portfolioId={portfolio.id} />
+      <ThemeSwitcher />
 
       <PublicFooter profile={profile} settings={settings} />
     </div>
