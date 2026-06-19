@@ -124,6 +124,25 @@ export function ParticlesBackground() {
         }
       }
 
+      // Draw connections from cursor to nearby particles
+      if (mouse.active) {
+        particles.forEach((p) => {
+          const dx = mouse.x - p.x
+          const dy = mouse.y - p.y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+
+          if (dist < 180) {
+            const alpha = (1 - dist / 180) * 0.22
+            ctx.beginPath()
+            ctx.moveTo(mouse.x, mouse.y)
+            ctx.lineTo(p.x, p.y)
+            ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`
+            ctx.lineWidth = 0.65
+            ctx.stroke()
+          }
+        })
+      }
+
       animationFrameId = requestAnimationFrame(draw)
     }
 

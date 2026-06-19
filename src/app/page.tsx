@@ -12,6 +12,9 @@ import { Typewriter } from "@/components/ui/typewriter"
 import { TiltCard } from "@/components/ui/tilt-card"
 import { ProjectRequestWidget } from "@/components/public/project-request-widget"
 import { PublicFooter } from "@/components/public/footer"
+import { WobblyBlob } from "@/components/ui/wobbly-blob"
+import { CustomCursor } from "@/components/ui/custom-cursor"
+import { Preloader } from "@/components/public/preloader"
 
 export const dynamic = "force-dynamic"
 
@@ -41,7 +44,9 @@ export default async function PublicHomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30">
+    <div className="min-h-screen text-foreground overflow-x-hidden selection:bg-primary/30">
+      <Preloader />
+      <CustomCursor />
       <ParticlesBackground />
       
       <PublicNavbar settings={settings} resumeUrl={profile?.resumeUrl} />
@@ -59,6 +64,7 @@ export default async function PublicHomePage() {
 
         {/* HERO SECTION */}
         <section id="hero" className="pt-20 pb-32 max-w-5xl mx-auto px-4 flex flex-col items-center text-center relative z-10">
+          <WobblyBlob className="absolute -z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] max-w-[95vw] opacity-40 md:opacity-55 blur-[0.3px] pointer-events-none" />
           <Badge variant="outline" className="mb-8 rounded-full px-4 py-1.5 text-sm border-primary/50 text-primary bg-primary/10 shadow-[0_0_15px_var(--primary)]/20 backdrop-blur-md font-medium tracking-wide">
             Available for new opportunities
           </Badge>
@@ -119,7 +125,7 @@ export default async function PublicHomePage() {
         </section>
 
         {/* ABOUT SECTION */}
-        <section id="about" className="py-28 relative border-t border-border/20 bg-background/30 backdrop-blur-md">
+        <section id="about" className="py-28 relative border-t border-border/20 bg-black/30 backdrop-blur-md">
           <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">About Me</h2>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
@@ -186,7 +192,7 @@ export default async function PublicHomePage() {
 
         {/* SKILLS SECTION */}
         {skills.length > 0 && (
-          <section id="skills" className="py-24 relative border-t border-border/20 bg-background/50 backdrop-blur-3xl">
+          <section id="skills" className="py-24 relative border-t border-border/20 bg-black/50 backdrop-blur-3xl">
             <div className="max-w-6xl mx-auto px-4">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">Technical Arsenal</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -208,7 +214,7 @@ export default async function PublicHomePage() {
 
         {/* EXPERIENCE SECTION */}
         {experiences.length > 0 && (
-          <section id="experience" className="py-24 border-t border-border/20 bg-background/50 backdrop-blur-md relative">
+          <section id="experience" className="py-24 border-t border-border/20 bg-black/50 backdrop-blur-md relative">
             <div className="max-w-4xl mx-auto px-4">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">Work Experience</h2>
               
@@ -274,7 +280,7 @@ export default async function PublicHomePage() {
 
         {/* EDUCATION SECTION */}
         {educations.length > 0 && (
-          <section id="education" className="py-24 border-t border-border/20 bg-background/30 backdrop-blur-md relative">
+          <section id="education" className="py-24 border-t border-border/20 bg-black/30 backdrop-blur-md relative">
             <div className="max-w-4xl mx-auto px-4">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">Education</h2>
               
@@ -421,7 +427,7 @@ export default async function PublicHomePage() {
         )}
         {/* ACHIEVEMENTS SECTION */}
         {achievements.length > 0 && (
-          <section id="achievements" className="py-24 border-b border-border/20 relative backdrop-blur-sm bg-background/20">
+          <section id="achievements" className="py-24 border-b border-border/20 relative backdrop-blur-sm bg-black/20">
             <div className="max-w-6xl mx-auto px-4">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">Achievements & Honors</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -467,7 +473,7 @@ export default async function PublicHomePage() {
 
         {/* RESUME SECTION */}
         {profile?.resumeUrl && (
-          <section id="resume" className="py-24 border-y border-border/20 relative backdrop-blur-sm bg-background/30">
+          <section id="resume" className="py-24 border-y border-border/20 relative backdrop-blur-sm bg-black/30">
             <div className="max-w-6xl mx-auto px-4 flex flex-col items-center">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-8 text-center">Resume</h2>
               <div className="w-full max-w-4xl h-[80vh] min-h-[600px] max-h-[1000px] border border-border/50 rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)] relative group">
