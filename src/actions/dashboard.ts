@@ -16,6 +16,7 @@ export async function getDashboardStats() {
       skillCount,
       messageCount,
       recentMessages,
+      recentViews,
       profile,
       settings
     ] = await Promise.all([
@@ -27,6 +28,11 @@ export async function getDashboardStats() {
         where: { portfolioId },
         orderBy: { createdAt: "desc" },
         take: 5
+      }),
+      prisma.pageView.findMany({
+        where: { portfolioId },
+        orderBy: { createdAt: "desc" },
+        take: 8
       }),
       prisma.profile.findFirst({ where: { portfolioId } }),
       prisma.siteSettings.findFirst({ where: { portfolioId } })
@@ -52,6 +58,7 @@ export async function getDashboardStats() {
       skillCount,
       messageCount,
       recentMessages,
+      recentViews,
       progressPercentage
     }
   } catch (error) {

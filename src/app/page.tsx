@@ -16,7 +16,7 @@ import { PublicFooter } from "@/components/public/footer"
 export const dynamic = "force-dynamic"
 
 export default async function PublicHomePage() {
-  const portfolio = await getPublicPortfolio()
+  const portfolio = await getPublicPortfolio("home")
 
   if (!portfolio) {
     notFound()

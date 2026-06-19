@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react"
 export const dynamic = "force-dynamic"
 
 export default async function ResumePage() {
-  const portfolio = await getPublicPortfolio()
+  const portfolio = await getPublicPortfolio("resume")
 
   if (!portfolio) {
     notFound()

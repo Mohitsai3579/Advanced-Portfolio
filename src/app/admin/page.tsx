@@ -153,6 +153,50 @@ export default async function AdminDashboardPage() {
               )}
             </CardContent>
           </Card>
+
+          {/* Live Traffic Analytics */}
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle>Live Traffic Logs</CardTitle>
+              <CardDescription>Real-time analytics of visitors browsing your portfolio pages.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!stats?.recentViews || stats.recentViews.length === 0 ? (
+                <div className="py-8 text-center text-muted-foreground text-sm">
+                  No visitors logged yet. Public traffic views will appear here dynamically.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left">
+                    <thead>
+                      <tr className="border-b border-border/60 text-muted-foreground text-xs uppercase tracking-wider">
+                        <th className="py-3 px-2">Page</th>
+                        <th className="py-3 px-2">Country</th>
+                        <th className="py-3 px-2">Device</th>
+                        <th className="py-3 px-2 text-right">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/40">
+                      {stats.recentViews.map((view: any) => (
+                        <tr key={view.id} className="hover:bg-muted/30 transition-colors">
+                          <td className="py-3 px-2 font-medium">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary capitalize">
+                              {view.page}
+                            </span>
+                          </td>
+                          <td className="py-3 px-2 text-muted-foreground">{view.country || "Unknown"}</td>
+                          <td className="py-3 px-2 text-muted-foreground">{view.device || "Desktop"}</td>
+                          <td className="py-3 px-2 text-right text-xs text-muted-foreground">
+                            {new Date(view.createdAt).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
         {/* Setup Progress & Quick Actions Column */}
