@@ -165,7 +165,7 @@ export function ThemeSwitcher() {
   }
 
   return (
-    <div className="fixed left-6 bottom-24 z-50 md:block hidden" ref={panelRef}>
+    <div className="fixed left-6 bottom-24 z-50 block" ref={panelRef}>
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -178,7 +178,7 @@ export function ThemeSwitcher() {
 
       {/* Slide-out Theme Controller Panel */}
       {isOpen && (
-        <div className="absolute left-16 bottom-0 w-76 p-5 rounded-3xl border border-primary/20 bg-background/90 backdrop-blur-2xl shadow-2xl flex flex-col gap-5 animate-in slide-in-from-left-5 duration-300 select-none pointer-events-auto">
+        <div className="absolute left-14 md:left-16 bottom-0 md:w-76 w-[calc(100vw-3.5rem)] max-w-xs p-5 rounded-3xl border border-primary/20 bg-background/90 backdrop-blur-2xl shadow-2xl flex flex-col gap-5 animate-in slide-in-from-left-5 duration-300 select-none pointer-events-auto">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-border/10 pb-3">
             <span className="text-xs font-mono font-bold tracking-widest text-primary uppercase">
