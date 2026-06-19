@@ -24,7 +24,7 @@ export function AdminHeader({ user }: { user: any }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 sticky top-0 z-20 shadow-sm">
+    <header className={`flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 sticky top-0 shadow-sm transition-all ${isOpen ? 'z-50' : 'z-20'}`}>
       {/* Mobile Sidebar Hamburger Menu */}
       <Button 
         variant="ghost" 
